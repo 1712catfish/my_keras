@@ -1,1 +1,3 @@
 deprecation
+keras-cv-attention-models
+scikit-learn
