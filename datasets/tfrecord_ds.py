@@ -60,8 +60,10 @@ def tfrec_ds(
         val_tfrec_files=None,
         test_tfrec_files=None,
         train_n_samples=None,
-        train_image_size=260,
-        test_image_size=260,
+        image_size=260,
+        train_image_size=None,
+        val_image_size=None,
+        test_image_size=None,
         batch_size=32,
         seed=1712,
         parse_record_fn="default",
@@ -86,7 +88,7 @@ def tfrec_ds(
 
     train_ds = tfrecord_dataset(
         train_tfrec_files,
-        parse_fn=lambda example: parse_record_fn(example, train_image_size),
+        parse_fn=lambda example: parse_record_fn(example, train_image_size if train_image_size else image_size),
         repeat=True,
         cache=False,
         batch_size=batch_size,
@@ -102,7 +104,7 @@ def tfrec_ds(
 
     val_ds = tfrecord_dataset(
         val_tfrec_files,
-        parse_fn=lambda example: parse_record_fn(example, test_image_size),
+        parse_fn=lambda example: parse_record_fn(example, val_image_size if val_image_size else image_size),
         repeat=False,
         cache=True,
         batch_size=batch_size,
@@ -114,7 +116,7 @@ def tfrec_ds(
 
     test_ds = tfrecord_dataset(
         test_tfrec_files,
-        parse_fn=lambda example: parse_record_fn(example, test_image_size),
+        parse_fn=lambda example: parse_record_fn(example, test_image_size if test_image_size else image_size),
         repeat=False,
         cache=True,
         batch_size=batch_size,
